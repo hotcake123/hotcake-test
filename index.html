@@ -82,11 +82,11 @@
       </div>
     </div>
   </body>
+
   <script>
 
-
-  const GITHUB_API_URL = 'https://api.github.com/repos/hotcake123/hotcake123-test/issues';
-  const TOKEN = 'YOUR_PERSONAL_ACCESS_TOKEN';
+  const GITHUB_API_URL = process.env.GITHUB_API_URL;
+  const TOKEN = process.env.TOKEN;
 
   function submitPost() {
       const inputTitle = document.getElementById("inputTitle").value;
