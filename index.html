@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>board</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ol,
+      ul,
+      li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #444;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #333;
+      }
+
+      #postList {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      #postList li {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>게시판</h1>
+      <form onsubmit="return submitPost();" id="postForm">
+        <input type="text" id="inputTitle" placeholder="제목" required />
+        <textarea id="inputContent" placeholder="내용" required></textarea>
+        <button type="submit">게시글 추가</button>
+      </form>
+      <div id="posts">
+        <h2>게시글 목록</h2>
+        <div id="outputDiv"></div>
+      </div>
+    </div>
+
+    <script>
+      function submitPost() {
+        const title = document.getElementById("inputTitle").value;
+        const content = document.getElementById("inputContent").value;
+
+        fetch(
+          "https://api.github.com/repos/hotcake123/hotcake123-test/actions/workflows/api.yml/dispatches",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/vnd.github.v3+json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ref: "main",
+              inputs: {
+                title: title,
+                body: content,
+              },
+            }),
+          }
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("게시물이 생성되었습니다:", data);
+            loadPosts();
+          })
+          .catch((error) => console.error("Error:", error));
+
+        return false;
+      }
+
+      function loadPosts() {
+        const GITHUB_API_URL = "https://api.github.com/repos/hotcake123/hotcake123-test/issues";
+
+        fetch(GITHUB_API_URL)
+          .then((response) => response.json())
+          .then((data) => {
+            const outputDiv = document.getElementById("outputDiv");
+            outputDiv.innerHTML = "";
+            if (data.length === 0) {
+              outputDiv.innerHTML = "<p>게시물이 없습니다.</p>";
+            } else {
+              data.forEach((issue) => {
+                outputDiv.innerHTML += `<h3>${issue.title}</h3><p>${issue.body}</p><hr>`;
+              });
+            }
+          })
+          .catch((error) => console.error("Error fetching posts:", error));
+      }
+
+      window.onload = loadPosts;
+    </script>
+  </body>
+</html>
