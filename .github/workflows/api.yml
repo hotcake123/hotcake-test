@@ -19,4 +19,4 @@ jobs:
         with:
           title: ${{ github.event.inputs.title }}
           body: ${{ github.event.inputs.body }}
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
