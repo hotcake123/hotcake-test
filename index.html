@@ -93,33 +93,24 @@
     </div>
 
     <script>
+      // const GITHUB_API_URL = "https://api.github.com/repos/hotcake123/hotcake123-test/issues";
+      // const GITHUB_TOKEN = "";
+
       function submitPost() {
         const title = document.getElementById("inputTitle").value;
         const content = document.getElementById("inputContent").value;
+        const issueData = { title: title, body: content };
 
-        fetch(
-          "https://api.github.com/repos/hotcake123/hotcake123-test/actions/workflows/api.yml/dispatches",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/vnd.github.v3+json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ref: "main",
-              inputs: {
-                title: title,
-                body: content,
-              },
-            }),
-          }
-        )
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
-          })
+        fetch(GITHUB_API_URL, {
+          method: "POST",
+          headers: {
+            Authorization: "token " + GITHUB_TOKEN,
+            Accept: "application/vnd.github.v3+json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(issueData),
+        })
+          .then((response) => response.json())
           .then((data) => {
             console.log("게시물이 생성되었습니다:", data);
             loadPosts();
@@ -130,9 +121,6 @@
       }
 
       function loadPosts() {
-        const GITHUB_API_URL =
-          "https://api.github.com/repos/hotcake123/hotcake123-test/issues";
-
         fetch(GITHUB_API_URL)
           .then((response) => response.json())
           .then((data) => {
