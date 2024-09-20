@@ -95,7 +95,7 @@
 
     <script>
       const CLIENT_ID = "Ov23liVjCNs45rCzN5FT";
-      const REDIRECT_URI = "https://hotcake123.github.io/hotcake123-test/";
+      const REDIRECT_URI = "https://your-github-username.github.io/your-repo-name/";
     
       function authenticate() {
         const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo`;
@@ -115,7 +115,7 @@
             },
             body: JSON.stringify({
               client_id: CLIENT_ID,
-              client_secret: "52178c0ed40b910d2bc41776da63604a992e4d02",
+              client_secret: "YOUR_CLIENT_SECRET",
               code: code
             })
           })
@@ -133,7 +133,7 @@
     
       function loadPosts() {
         const token = localStorage.getItem('github_token');
-
+    
         fetch("https://api.github.com/repos/hotcake123/hotcake123-test/issues", {
           headers: {
             Authorization: "token " + token,
