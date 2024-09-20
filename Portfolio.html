@@ -11,8 +11,8 @@
       a{text-decoration: none; color: #fff;}
       img{vertical-align: top;}
       html{scroll-behavior: smooth;}
-      .con{height: 100vh; display: flex; align-items: center; justify-content: center;}
-      .con h2{font-size: 30px;}
+      .con{height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #fff;}
+      .con h2{font-size: 30px; color: #fff;}
       header{background: #222; padding: 20px 30px; color: #fff; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 60px; width: 90%; z-index: 10; left: 50%; transform: translateX(-50%);}
       header nav ul{display: flex;}
       header nav ul li{margin-left: 50px; font-weight: bold; color: #fff;}
@@ -22,7 +22,7 @@
       #pro1{background: url(img/bg1.jpg) center/cover; background-attachment: fixed;}
       #pro2{background: url(img/bg2.jpg) center/cover; background-attachment: fixed;}
       #pro3{background: url(img/bg3.jpg) center/cover; background-attachment: fixed;}
-      .con > h2{color: #fff;}
+      #img1{background: url(img/bg4.jpg) center/cover; width: 50%;}
     </style>
   </head>
   <body>
@@ -45,7 +45,9 @@
         </video>
       </div>
       <div id="pro1" class="con">
-        <h2>Project01</h2>
+        <h2>백엔드 없는 게시판</h2>
+        <div>간단한 게시판 기능 github 기능만으로 구현</div>
+        <div><a href="https://hotcake123.github.io/hotcake123-test/">바로가기</a></div>
       </div>
       <div id="pro2" class="con">
         <h2>Project02</h2>
