@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Node.js 관련 파일
 node_modules/
 
@@ -10,4 +11,18 @@ node_modules/
 # Node.js 관련 파일
 node_modules/
 package-lock.json
+=======
+# Node.js 관련 파일
+node_modules/
+
+# 로그 파일
+*.log
+
+# 환경 변수 파일
+.env
+
+# Node.js 관련 파일
+node_modules/
+package-lock.json
+>>>>>>> origin/main
 package.json
