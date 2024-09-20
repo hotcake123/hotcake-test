@@ -94,52 +94,59 @@
     </div>
 
     <script>
-      const GITHUB_API_URL =
-        "https://api.github.com/repos/hotcake123/hotcake123-test/issues";
-      const GITHUB_TOKEN = "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";
-
-      function submitPost() {
-        const title = document.getElementById("inputTitle").value;
-        const content = document.getElementById("inputContent").value;
-        const issueData = { title: title, body: content };
-
-        fetch(GITHUB_API_URL, {
-          method: "POST",
-          headers: {
-            Authorization: "token " + GITHUB_TOKEN,
-            Accept: "application/vnd.github.v3+json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(issueData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("게시물이 생성되었습니다:", data);
+      const CLIENT_ID = "Ov23liVjCNs45rCzN5FT";
+      const REDIRECT_URI = "https://hotcake123.github.io/hotcake123-test/";
+    
+      function authenticate() {
+        const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo`;
+        window.location.href = authUrl;
+      }
+    
+      function getAccessToken() {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+    
+        if (code) {
+          fetch(`https://github.com/login/oauth/access_token`, {
+            method: "POST",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              client_id: CLIENT_ID,
+              client_secret: "52178c0ed40b910d2bc41776da63604a992e4d02",
+              code: code
+            })
+          })
+          .then(response => response.json())
+          .then(data => {
+            const token = data.access_token;
+            localStorage.setItem('github_token', token);
             loadPosts();
           })
-          .catch((error) => console.error("Error:", error));
-
-        return false;
+          .catch(error => console.error("Error:", error));
+        } else {
+          authenticate();
+        }
       }
-
+    
       function loadPosts() {
-        fetch(GITHUB_API_URL)
-          .then((response) => response.json())
-          .then((data) => {
-            const outputDiv = document.getElementById("outputDiv");
-            outputDiv.innerHTML = "";
-            if (data.length === 0) {
-              outputDiv.innerHTML = "<p>게시물이 없습니다.</p>";
-            } else {
-              data.forEach((issue) => {
-                outputDiv.innerHTML += `<h3>${issue.title}</h3><p>${issue.body}</p><hr>`;
-              });
-            }
-          })
-          .catch((error) => console.error("Error fetching posts:", error));
-      }
+        const token = localStorage.getItem('github_token');
 
-      window.onload = loadPosts;
+        fetch("https://api.github.com/repos/hotcake123/hotcake123-test/issues", {
+          headers: {
+            Authorization: "token " + token,
+            Accept: "application/vnd.github.v3+json"
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+        })
+        .catch(error => console.error("Error fetching posts:", error));
+      }
+    
+      window.onload = getAccessToken;
     </script>
   </body>
 </html>
