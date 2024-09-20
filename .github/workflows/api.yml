@@ -1,0 +1,16 @@
+name: Create Issue
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Issue
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d '{"title": "Your Issue Title", "body": "Your issue body content."}' \
+            https://api.github.com/repos/${{ github.repository }}/issues
