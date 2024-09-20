@@ -116,7 +116,7 @@
         )
           .then((response) => {
             if (!response.ok) {
-              throw new Error('Network response was not ok');
+              throw new Error("Network response was not ok");
             }
             return response.json();
           })
@@ -130,7 +130,8 @@
       }
 
       function loadPosts() {
-        const GITHUB_API_URL = "https://api.github.com/repos/hotcake123/hotcake123-test/issues";
+        const GITHUB_API_URL =
+          "https://api.github.com/repos/hotcake123/hotcake123-test/issues";
 
         fetch(GITHUB_API_URL)
           .then((response) => response.json())
